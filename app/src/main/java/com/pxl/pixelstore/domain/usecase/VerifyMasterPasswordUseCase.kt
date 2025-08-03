@@ -27,7 +27,6 @@ class VerifyMasterPasswordUseCase @Inject constructor(
 
             keyManager.generateKey(password, randomSalt)
             val validationEncrypted = cipher.encrypt(VALIDATION_STRING_RAW)
-            val validation = cipher.decrypt(validationEncrypted)
             dataStore.putSalt(Base64.encodeToString(randomSalt, Base64.DEFAULT))
             dataStore.putValidationString(validationEncrypted)
 

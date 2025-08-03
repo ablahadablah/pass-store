@@ -1,14 +1,15 @@
 package com.pxl.pixelstore.domain.usecase
 
+import com.pxl.pixelstore.data.db.PasswordRecordRepository
 import com.pxl.pixelstore.domain.entity.PasswordRecord
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 
 class ImportUseCase @Inject constructor(
-    private val savePasswordUseCase: SavePasswordUseCase
+    private val passwordRecordRepository: PasswordRecordRepository
 ) {
     suspend fun importFromFile(path: String) {
         try {
@@ -39,7 +40,7 @@ class ImportUseCase @Inject constructor(
             }
 
             for (r in passwords) {
-                savePasswordUseCase.savePassword(r)
+                passwordRecordRepository.savePassword(r)
             }
         } catch (e: Throwable) {
             println("couldn't import from file $path, ${e.message}")

@@ -11,7 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.pxl.pixelstore.R
 
 @Composable
 fun SearchForm(value: String, onValueChange: (String) -> Unit) {
@@ -23,7 +25,7 @@ fun SearchForm(value: String, onValueChange: (String) -> Unit) {
             .height(92.dp)
             .padding(16.dp),
         textStyle = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onBackground),
-        label = { Text("Search passwords") },
+        label = { Text(stringResource(R.string.search_password_label)) },
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,

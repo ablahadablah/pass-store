@@ -12,16 +12,22 @@ plugins {
 
 android {
     namespace = "com.pxl.pixelstore"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.pxl.pixelstore"
+        testApplicationId = "com.pxl.pixelstore.test"
+
         minSdk = 29
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
     }
 
     buildTypes {
@@ -59,50 +65,62 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.lifecycle.viewmodel)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.savedstate)
     implementation(libs.compose.navigation)
     implementation(libs.androidx.material.icons)
     implementation(libs.androidx.material.icons.extended)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.10.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.swing)
+    implementation(libs.kotlinx.coroutines.android)
 
-    implementation("androidx.appcompat:appcompat:1.7.1")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
-//    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.legacy.support.v4)
 
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.2")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.9.2")
-
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.2")
-
-//    implementation("io.ktor:ktor-client-okhttp:2.3.0")
-
-    implementation("androidx.work:work-runtime-ktx:2.10.2")
+    implementation(libs.androidx.work.runtime)
 
     implementation(libs.dagger.hilt)
-//    implementation(libs.hilt.navigation)
     implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.android.compiler)
 
-//    implementation("io.ktor:ktor-client-core:2.3.0")
-//    implementation("io.ktor:ktor-client-content-negotiation:2.3.0")
-//    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.0")
-//    implementation("io.ktor:ktor-client-okhttp:2.3.0")
-//    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.0")
+    implementation(libs.sqldelight.runtime)
+    implementation(libs.sqldelight.coroutines.extensions)
+    implementation(libs.sqldelight.android.driver)
 
-    implementation("app.cash.sqldelight:runtime:2.0.2")
-    implementation("app.cash.sqldelight:coroutines-extensions:2.0.2")
-    implementation("app.cash.sqldelight:android-driver:2.0.2")
-
-    implementation("androidx.datastore:datastore-preferences:1.1.7")
+    implementation(libs.androidx.datastore)
 
     testImplementation(libs.junit)
+    testImplementation("androidx.test:core:1.7.0")
+    testImplementation("org.mockito:mockito-core:5.18.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:6.0.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("io.mockk:mockk:1.13.8")
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.6.3")
+    androidTestImplementation("androidx.compose.ui:ui-test-manifest:1.6.3")
+
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.50")
+    kspAndroidTest("com.google.dagger:hilt-compiler:2.50")
+    
+    androidTestImplementation("org.mockito:mockito-android:5.18.0")
+    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:6.0.0")
+    
+    androidTestImplementation("androidx.test:runner:1.5.2")
+    androidTestImplementation("androidx.test:rules:1.5.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    
+    androidTestImplementation(libs.androidx.lifecycle.runtime.testing)
+    
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }

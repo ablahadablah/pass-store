@@ -8,11 +8,16 @@
     <string name="create_account_label">Create an account</string>
     <string name="enter_master_password_label">Enter</string>
     <string name="username_label">Username</string>
+    <string name="title_label">Title</string>
     <string name="email_label">Email</string>
     <string name="password_label">Password</string>
+    <string name="no_passwords_label">No passwords yet. Add a new password</string>
     <string name="hidden_password_label">********</string>
+    <string name="search_password_label">Search passwords</string>
+
+    <string name="confirm_delete_message">Are you sure you want to delete this item?</string>
 
     <string name="edit_label">Edit</string>
     <string name="delete_label">Delete</string>
-
+    <string name="cancel_label">Cancel</string>
 </resources>

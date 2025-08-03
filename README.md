@@ -1,1 +1,1 @@
-# pass-store
+# Password manager demo

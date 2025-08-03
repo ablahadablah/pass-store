@@ -1,6 +1,7 @@
 package com.pxl.pixelstore.ui
 
-import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,14 +31,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.pxl.pixelstore.domain.entity.PasswordRecord
-import com.pxl.pixelstore.navigation.Destination
-import com.pxl.pixelstore.navigation.PasswordRecordNavType
-import com.pxl.pixelstore.ui.master_password.MasterPasswordScreen
+import com.pxl.pixelstore.ui.auth.MasterPasswordScreen
 import com.pxl.pixelstore.ui.password.EditPasswordScreen
 import com.pxl.pixelstore.ui.password.PasswordDetailsScreen
 import com.pxl.pixelstore.ui.password.PasswordsListScreen
-import kotlin.reflect.typeOf
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,7 +63,6 @@ fun MainAppBar(
     )
 }
 
-@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun RootScreen(
     navController: NavHostController = rememberNavController()
@@ -110,7 +106,20 @@ fun RootScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            composable<Destination.MasterPassword> {
+            composable<Destination.MasterPassword>(
+                enterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Right,
+                        animationSpec = tween(700)
+                    )
+                }
+            ) {
                 MasterPasswordScreen(
                     snackbarHostState,
                     onMasterPasswordEntered = {
@@ -121,26 +130,78 @@ fun RootScreen(
                 )
             }
 
-            composable<Destination.PasswordsList> {
+            composable<Destination.PasswordsList>(
+                enterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                }
+            ) {
                 PasswordsListScreen(
-                    onNavToEdit = {
+                    navigateToEdit = {
                         navController.navigate(Destination.PasswordDetails(it.id?.toString()))
                     }
                 )
             }
 
-            composable<Destination.EditPassword> { backStackEntry ->
+            composable<Destination.EditPassword>(
+                enterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                }
+            ) { backStackEntry ->
                 val editPassword: Destination.EditPassword = backStackEntry.toRoute()
-                EditPasswordScreen(editPassword)
+                EditPasswordScreen(
+                    editPassword.recordId,
+                    {
+                        navController.navigate(Destination.PasswordsList()) {
+                            popUpTo(0)
+                        }
+                    }
+                )
             }
 
-            composable<Destination.PasswordDetails> { backStackEntry ->
+            composable<Destination.PasswordDetails>(
+                enterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                }
+            ) { backStackEntry ->
                 val destination: Destination.PasswordDetails = backStackEntry.toRoute()
 
                 PasswordDetailsScreen(
                     destination.recordId,
-                    { navController.navigate(Destination.EditPassword(it.id?.toString())) },
-                    { }
+                    {
+                        navController.navigate(Destination.EditPassword(it.id?.toString()))
+                    },
+                    {
+                        navController.navigate(Destination.PasswordsList()) {
+                            popUpTo(0)
+                        }
+                    }
                 )
             }
         }

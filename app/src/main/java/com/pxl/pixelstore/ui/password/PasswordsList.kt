@@ -64,12 +64,13 @@ fun ItemLabel(text: String) {
 fun PasswordsList(
     passwordsList: List<PasswordRecord>,
     selectedEntity: PasswordRecord?,
+    modifier: Modifier,
     onItemClicked: (PasswordRecord) -> Unit
 ) {
     val listState = rememberLazyListState()
 
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
             .padding(16.dp),
         state = listState
     ) {
